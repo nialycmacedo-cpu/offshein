@@ -75,16 +75,18 @@ const DadosFrete = () => {
       return;
     }
 
-    // Navigate to next page
-    console.log({
+    // Salva os dados do endereço no localStorage
+    localStorage.setItem("dadosEndereco", JSON.stringify({
       cep,
       endereco,
       bairro,
       cidade,
       estado,
       numero
-    });
-    // navigate('/proxima-pagina');
+    }));
+    
+    // Navega para a página de escolha de frete
+    navigate('/escolha-frete');
   };
   return <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 p-4 pt-8">

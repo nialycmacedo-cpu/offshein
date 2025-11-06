@@ -19,6 +19,7 @@ import CategoriasLooks from "./pages/CategoriasLooks";
 import CoresLooks from "./pages/CoresLooks";
 import VerificacaoFinal from "./pages/VerificacaoFinal";
 import DadosFrete from "./pages/DadosFrete";
+import EscolhaFrete from "./pages/EscolhaFrete";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/cores-looks" element={<CoresLooks />} />
           <Route path="/verificacao-final" element={<VerificacaoFinal />} />
           <Route path="/dados-frete" element={<DadosFrete />} />
+          <Route path="/escolha-frete" element={<EscolhaFrete />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

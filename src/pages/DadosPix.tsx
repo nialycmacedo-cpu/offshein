@@ -99,6 +99,12 @@ const DadosPix = () => {
     if (!validateAndFormatChave(data.tipoChave, data.chavePixValue)) {
       return;
     }
+    // Salva os dados do PIX no localStorage
+    localStorage.setItem("dadosPix", JSON.stringify({
+      titular: data.titular,
+      chavePixValue: data.chavePixValue,
+      tipoChave: data.tipoChave,
+    }));
     setShowLoading(true);
   };
 
