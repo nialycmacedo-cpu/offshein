@@ -63,10 +63,7 @@ const EscolhaFrete = () => {
     const freteEscolhido = freteOptions.find((f) => f.id === freteSelecionado);
     if (freteEscolhido) {
       localStorage.setItem("freteEscolhido", JSON.stringify(freteEscolhido));
-      
-      // TODO: Adicionar redirecionamento para checkout específico baseado no frete escolhido
-      // Por enquanto, navega para a próxima página
-      navigate("/verificacao-final");
+      navigate("/checkout");
     }
   };
 
