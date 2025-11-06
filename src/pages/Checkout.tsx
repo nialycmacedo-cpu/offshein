@@ -53,10 +53,10 @@ const Checkout = () => {
   const { toast } = useToast();
   const premio = 2690;
   const [step, setStep] = useState(1);
-  const [subStep, setSubStep] = useState(1); // Sub-etapa dentro do step 2
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
+  const [cpfValidado, setCpfValidado] = useState(false);
   const [freteData, setFreteData] = useState<FreteData | null>(null);
   const [ofertas, setOfertas] = useState({
     whatsapp: false,
@@ -146,7 +146,7 @@ const Checkout = () => {
       return;
     }
 
-    setSubStep(2); // Avança para mostrar ofertas e finalização
+    setCpfValidado(true); // Marca CPF como validado
   };
 
   const handleStepOne = () => {
@@ -287,9 +287,9 @@ const Checkout = () => {
             Escolha o seu método de pagamento preferido
           </p>
 
-          {subStep === 1 && (
+          {!cpfValidado && (
             <>
-              {/* Card PIX - Sub-etapa 1: Apenas CPF */}
+              {/* Card PIX - Apenas CPF */}
               <div className="border-4 border-cyan-400 rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 bg-cyan-50">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-cyan-500 bg-white flex items-center justify-center">
@@ -361,7 +361,7 @@ const Checkout = () => {
             </>
           )}
 
-          {subStep === 2 && (
+          {cpfValidado && (
             <>
 
           {/* Você está adquirindo */}
