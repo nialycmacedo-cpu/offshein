@@ -44,7 +44,6 @@ const EscolhaFrete = () => {
   const [pixData, setPixData] = useState<{ titular: string; chavePixValue: string } | null>(null);
 
   useEffect(() => {
-    // Recupera os dados do PIX do localStorage
     const dadosPix = localStorage.getItem("dadosPix");
     if (dadosPix) {
       setPixData(JSON.parse(dadosPix));
@@ -64,7 +63,9 @@ const EscolhaFrete = () => {
     const freteEscolhido = freteOptions.find((f) => f.id === freteSelecionado);
     if (freteEscolhido) {
       localStorage.setItem("freteEscolhido", JSON.stringify(freteEscolhido));
-      // Navigate to next step
+      
+      // TODO: Adicionar redirecionamento para checkout específico baseado no frete escolhido
+      // Por enquanto, navega para a próxima página
       navigate("/verificacao-final");
     }
   };
