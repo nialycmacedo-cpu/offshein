@@ -102,4 +102,25 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Mobile-friendly text rendering */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Improve tap targets on mobile */
+  button,
+  a,
+  [role="button"] {
+    @apply min-h-[44px];
+  }
+
+  /* Better mobile input experience */
+  input,
+  textarea,
+  select {
+    @apply text-base;
+  }
 }

@@ -89,13 +89,13 @@ const DadosFrete = () => {
     navigate('/escolha-frete');
   };
   return <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 p-4 pt-8">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <div className="flex justify-between items-start">
-            <img src={sheinLogo} alt="Shein Premiações" className="h-10 w-auto object-contain" />
+      <div className="flex-1 p-3 sm:p-4 pt-4 sm:pt-8">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+          <div className="flex justify-between items-start gap-2">
+            <img src={sheinLogo} alt="Shein Premiações" className="h-8 sm:h-10 w-auto object-contain" />
             <div className="text-right">
-              <p className="text-xs text-gray-600">Acumulado em prêmios:</p>
-              <p className="text-xl font-bold">
+              <p className="text-[10px] sm:text-xs text-gray-600">Acumulado em prêmios:</p>
+              <p className="text-base sm:text-xl font-bold">
                 R$ {premio.toLocaleString('pt-BR', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
@@ -104,76 +104,76 @@ const DadosFrete = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center min-h-[500px]">
-            <Card className="w-full max-w-2xl p-8 shadow-lg border-2 border-gray-300 rounded-2xl bg-gray-50">
-              <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex items-center justify-center min-h-[300px] sm:min-h-[500px]">
+            <Card className="w-full max-w-2xl p-4 sm:p-8 shadow-lg border-2 border-gray-300 rounded-xl sm:rounded-2xl bg-gray-50">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {/* Header com steps */}
-                <div className="flex items-center justify-center gap-8 pb-6 border-b">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-[#00c853] flex items-center justify-center text-white font-bold">
-                      <CheckCircle2 className="w-5 h-5" />
+                <div className="flex items-center justify-center gap-4 sm:gap-8 pb-4 sm:pb-6 border-b">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#00c853] flex items-center justify-center text-white font-bold">
+                      <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="text-sm font-semibold">Entrega</span>
+                    <span className="text-xs sm:text-sm font-semibold">Entrega</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-xs sm:text-base font-bold">
                       2
                     </div>
-                    <span className="text-sm text-gray-600">Frete</span>
+                    <span className="text-xs sm:text-sm text-gray-600">Frete</span>
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {/* CEP */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-[#2563eb]">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium text-[#2563eb]">
                       Insira seu CEP
                     </label>
-                    <Input type="text" placeholder="00000-000" value={cep} onChange={e => handleCepChange(e.target.value)} className="w-full bg-[#e6f0ff] border-gray-300" disabled={loadingCep} />
-                    {loadingCep && <p className="text-xs text-gray-500">Buscando endereço...</p>}
+                    <Input type="text" placeholder="00000-000" value={cep} onChange={e => handleCepChange(e.target.value)} className="w-full bg-[#e6f0ff] border-gray-300 text-sm" disabled={loadingCep} />
+                    {loadingCep && <p className="text-[10px] sm:text-xs text-gray-500">Buscando endereço...</p>}
                   </div>
 
                   {/* Endereço */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <label className="text-xs sm:text-sm font-medium text-gray-700">
                       Endereço
                     </label>
-                    <Input type="text" placeholder="Rua, Avenida..." value={endereco} onChange={e => setEndereco(e.target.value)} className="w-full bg-white border-2 border-black" />
+                    <Input type="text" placeholder="Rua, Avenida..." value={endereco} onChange={e => setEndereco(e.target.value)} className="w-full bg-white border-2 border-black text-sm" />
                   </div>
 
                   {/* Bairro e Cidade */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-xs sm:text-sm font-medium text-gray-700">
                         Bairro
                       </label>
-                      <Input type="text" placeholder="Bairro" value={bairro} onChange={e => setBairro(e.target.value)} className="w-full bg-white border-gray-300" />
+                      <Input type="text" placeholder="Bairro" value={bairro} onChange={e => setBairro(e.target.value)} className="w-full bg-white border-gray-300 text-sm" />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-xs sm:text-sm font-medium text-gray-700">
                         Cidade
                       </label>
-                      <Input type="text" placeholder="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} className="w-full bg-white border-gray-300" />
+                      <Input type="text" placeholder="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} className="w-full bg-white border-gray-300 text-sm" />
                     </div>
                   </div>
 
                   {/* Estado e Número */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-xs sm:text-sm font-medium text-gray-700">
                         Estado
                       </label>
-                      <Input type="text" placeholder="UF" value={estado} onChange={e => setEstado(e.target.value.toUpperCase())} maxLength={2} className="w-full bg-white border-gray-300" />
+                      <Input type="text" placeholder="UF" value={estado} onChange={e => setEstado(e.target.value.toUpperCase())} maxLength={2} className="w-full bg-white border-gray-300 text-sm" />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <label className="text-xs sm:text-sm font-medium text-gray-700">
                         Número
                       </label>
-                      <Input type="text" placeholder="Digite o número" value={numero} onChange={e => setNumero(e.target.value)} className="w-full bg-white border-gray-300" />
+                      <Input type="text" placeholder="Nº" value={numero} onChange={e => setNumero(e.target.value)} className="w-full bg-white border-gray-300 text-sm" />
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full bg-[#6b7280] hover:bg-[#4b5563] text-white py-3 text-sm font-bold rounded-md mt-6">
+                  <Button type="submit" className="w-full bg-[#6b7280] hover:bg-[#4b5563] text-white py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-md mt-4 sm:mt-6">
                     Seguir para o frete
                   </Button>
                 </div>
@@ -183,8 +183,8 @@ const DadosFrete = () => {
         </div>
       </div>
 
-      <footer className="bg-[#374151] text-white py-4 mt-auto">
-        <div className="max-w-4xl mx-auto px-4 text-center text-xs space-y-1">
+      <footer className="bg-[#374151] text-white py-3 sm:py-4 mt-auto">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 text-center text-[10px] sm:text-xs space-y-1">
           <p>© 2025 Shein. Todas as marcas foram usadas.</p>
           <p>Este é uma promoção oficial da Shein Brasil.</p>
         </div>
