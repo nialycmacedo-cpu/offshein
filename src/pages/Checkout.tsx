@@ -125,6 +125,20 @@ const Checkout = () => {
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatCPF(e.target.value);
     setCpf(formatted);
+    
+    // Validação automática quando CPF estiver completo
+    const numbers = formatted.replace(/\D/g, "");
+    if (numbers.length === 11) {
+      if (validarCPF(formatted)) {
+        setCpfValidado(true);
+      } else {
+        toast({
+          title: "CPF inválido",
+          description: "Por favor, insira um CPF válido.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   const handleCpfValidation = () => {
@@ -341,14 +355,6 @@ const Checkout = () => {
                     className="h-12 sm:h-14 text-sm sm:text-base bg-white"
                   />
                 </div>
-
-                {/* Botão Continuar */}
-                <Button
-                  onClick={handleCpfValidation}
-                  className="w-full h-12 sm:h-14 bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-lg font-bold rounded-lg mt-4"
-                >
-                  CONTINUAR
-                </Button>
               </div>
 
               {/* Notificação flutuante */}
