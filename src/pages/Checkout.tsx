@@ -66,14 +66,25 @@ const Checkout = () => {
     nome: nomesAleatorios[0],
     produto: produtosAleatorios[0]
   });
+  const [notificacaoVisivel, setNotificacaoVisivel] = useState(true);
 
-  // Atualizar notificação a cada 5 segundos
+  // Atualizar notificação a cada 1 minuto com fade in/out
   useEffect(() => {
-    const interval = setInterval(() => {
-      const nomeAleatorio = nomesAleatorios[Math.floor(Math.random() * nomesAleatorios.length)];
-      const produtoAleatorio = produtosAleatorios[Math.floor(Math.random() * produtosAleatorios.length)];
-      setNotificacaoAtual({ nome: nomeAleatorio, produto: produtoAleatorio });
-    }, 5000);
+    const cicloCompleto = () => {
+      // Fade out
+      setNotificacaoVisivel(false);
+      
+      // Aguarda 1 segundo, troca a notificação e faz fade in
+      setTimeout(() => {
+        const nomeAleatorio = nomesAleatorios[Math.floor(Math.random() * nomesAleatorios.length)];
+        const produtoAleatorio = produtosAleatorios[Math.floor(Math.random() * produtosAleatorios.length)];
+        setNotificacaoAtual({ nome: nomeAleatorio, produto: produtoAleatorio });
+        setNotificacaoVisivel(true);
+      }, 1000);
+    };
+
+    // Executar a cada 60 segundos (1 minuto)
+    const interval = setInterval(cicloCompleto, 60000);
 
     return () => clearInterval(interval);
   }, []);
@@ -315,7 +326,9 @@ const Checkout = () => {
               </div>
 
               {/* Notificação flutuante */}
-              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
+              <div 
+                className={`fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50 transition-opacity duration-1000 ${notificacaoVisivel ? 'opacity-100' : 'opacity-0'}`}
+              >
                 <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
                 <p className="text-[10px] sm:text-sm">
                   <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
@@ -549,7 +562,9 @@ const Checkout = () => {
           </div>
 
           {/* Notificação flutuante pessoas finalizando */}
-          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
+          <div 
+            className={`fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50 transition-opacity duration-1000 ${notificacaoVisivel ? 'opacity-100' : 'opacity-0'}`}
+          >
             <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
             <p className="text-[10px] sm:text-sm">
               <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
