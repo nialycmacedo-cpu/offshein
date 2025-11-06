@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, Lock, Shield, Award, Package } from "lucide-react";
+import bannerCheckout from "@/assets/banner-checkout.jpg";
 
 interface FreteData {
   id: string;
@@ -14,9 +15,43 @@ interface FreteData {
   preco: number;
 }
 
+// Lista de nomes brasileiros aleatórios
+const nomesAleatorios = [
+  "Ana Silva",
+  "Maria Santos",
+  "Juliana Costa",
+  "Fernanda Lima",
+  "Carla Souza",
+  "Patricia Oliveira",
+  "Beatriz Almeida",
+  "Camila Rodrigues",
+  "Amanda Ferreira",
+  "Rafaela Martins",
+  "Larissa Pereira",
+  "Gabriela Nascimento",
+  "Mariana Cardoso",
+  "Jessica Ribeiro",
+  "Leticia Gomes",
+  "Renata Castro",
+  "Adriana Dias",
+  "Vanessa Araujo",
+  "Luciana Barbosa",
+  "Tatiana Rocha"
+];
+
+// Lista de produtos
+const produtosAleatorios = [
+  "LOOK SHEIN",
+  "KIT DE MAQUIAGENS Shein",
+  "KIT FASHION TRENDS",
+  "LOOK PREMIUM Shein",
+  "KIT DE DECORAÇÃO Shein"
+];
+
 const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const premio = 2690;
   const [step, setStep] = useState(1);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -27,6 +62,21 @@ const Checkout = () => {
     kitFacial: false,
     kitAntiRugas: false,
   });
+  const [notificacaoAtual, setNotificacaoAtual] = useState({
+    nome: nomesAleatorios[0],
+    produto: produtosAleatorios[0]
+  });
+
+  // Atualizar notificação a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nomeAleatorio = nomesAleatorios[Math.floor(Math.random() * nomesAleatorios.length)];
+      const produtoAleatorio = produtosAleatorios[Math.floor(Math.random() * produtosAleatorios.length)];
+      setNotificacaoAtual({ nome: nomeAleatorio, produto: produtoAleatorio });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const freteSalvo = localStorage.getItem("freteEscolhido");
@@ -98,8 +148,6 @@ const Checkout = () => {
     }, 2000);
   };
 
-  const getTotalPessoas = () => Math.floor(Math.random() * 20) + 10;
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header Verde */}
@@ -110,43 +158,13 @@ const Checkout = () => {
 
       {step === 1 && (
         <>
-          {/* Banner Promo */}
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 text-white p-3 sm:p-6">
-            <h1 className="text-xl sm:text-3xl font-bold text-center mb-2">
-              LOOKS PARA SEMPRE!
-            </h1>
-            <p className="text-center text-xs sm:text-sm mb-2">
-              Mais de <span className="font-bold">2 mil mulheres</span> já estão recebendo{" "}
-              <span className="font-bold">Roupas Grátis Toda Semana!</span>
-            </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-2xl mx-auto mt-3 sm:mt-4">
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ RECEBA LOGIN E SENHA POR E-MAIL
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ PEÇA ROUPAS TODAS AS SEMANAS
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ SUPORTE VITALÍCIO E INDIVIDUAL
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ TODA SEMANA UM LOOK NOVO
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ RECEBA CUPONS SEMANAIS DE DESCONTOS
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded p-2 text-[10px] sm:text-xs">
-                ➜ 1 ANO RECEBENDO LOOKS TODA SEMANA
-              </div>
-            </div>
-            <div className="text-center mt-3 sm:mt-4">
-              <p className="text-lg sm:text-2xl font-bold text-yellow-300">
-                LOOKS GARANTIDOS E COMPROVADOS!
-              </p>
-            </div>
-            <div className="bg-red-600 text-white py-1 sm:py-2 px-3 sm:px-4 rounded-full text-center mt-2 sm:mt-3 text-xs sm:text-sm max-w-md mx-auto">
-              SORTEIO SEMANAL DE PIX PARA TODAS AS PARTICIPANTES DO PROGRAMA LOOKS PARA SEMPRE
-            </div>
+          {/* Banner Promo - Usando imagem */}
+          <div className="relative w-full">
+            <img 
+              src={bannerCheckout} 
+              alt="LOOKS PARA SEMPRE - Banner promocional" 
+              className="w-full h-auto object-cover max-h-[400px] sm:max-h-[600px]"
+            />
           </div>
 
           {/* Formulário Identificação */}
@@ -193,12 +211,10 @@ const Checkout = () => {
 
             {/* Notificação flutuante */}
             <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
               <p className="text-[10px] sm:text-sm">
                 <span className="font-bold">
-                  {nome || "Visitante"} escolheu o {freteData?.name || "Frete"} no valor de R${" "}
-                  {freteData?.preco.toFixed(2)} e finalizou o pagamento do Frete{" "}
-                  {freteData?.id === "expresso" ? "Expresso" : freteData?.id === "advanced" ? "Advanced" : "Básico"}
+                  {notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}
                 </span>
               </p>
             </div>
@@ -491,9 +507,9 @@ const Checkout = () => {
 
           {/* Notificação flutuante pessoas finalizando */}
           <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
-            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full shrink-0 animate-pulse"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
             <p className="text-[10px] sm:text-sm">
-              <span className="font-bold">{getTotalPessoas()} pessoas na finalização do pagamento!</span>
+              <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
             </p>
           </div>
         </div>
