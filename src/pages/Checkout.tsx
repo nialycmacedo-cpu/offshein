@@ -329,22 +329,28 @@ const Checkout = () => {
 
           {/* Você está adquirindo */}
           <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-xl font-bold mb-3 sm:mb-4">Você está adquirindo:</h3>
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-3 sm:p-6 flex items-center gap-3 sm:gap-4">
-              <div className="text-3xl sm:text-5xl font-bold">SHEIN</div>
-              <div className="flex-1">
-                <h4 className="text-sm sm:text-lg font-bold uppercase">
-                  FRETE {freteData?.id === "basico" ? "BÁSICO" : freteData?.id === "advanced" ? "ADVANCED" : "EXPRESSO"}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-600">{freteData?.prazo}</p>
-                <p className="text-lg sm:text-2xl font-bold text-green-600 mt-1">
-                  R$ {freteData?.preco.toFixed(2)}
-                </p>
+            <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-gray-800">Você está adquirindo:</h3>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 shadow-sm">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex items-start gap-3 flex-1">
+                  <div className="text-2xl sm:text-3xl font-bold text-gray-900">SHEIN</div>
+                  <div className="flex-1">
+                    <h4 className="text-sm sm:text-base font-bold text-gray-900 uppercase mb-1">
+                      FRETE {freteData?.id === "basico" ? "BÁSICO" : freteData?.id === "advanced" ? "ADVANCED" : "EXPRESSO"}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-gray-500">{freteData?.prazo}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xl sm:text-2xl font-bold text-green-600">
+                    R$ {freteData?.preco.toFixed(2).replace('.', ',')}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="bg-green-100 text-green-700 py-2 px-3 sm:px-4 rounded-lg mt-2 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold">
-              <Package className="w-4 h-4 sm:w-5 sm:h-5" />
-              Estoque no Brasil
+              <div className="bg-green-50 border border-green-200 text-green-700 py-2 px-3 rounded-md flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold">
+                <Package className="w-4 h-4" />
+                Estoque no Brasil
+              </div>
             </div>
           </div>
 
