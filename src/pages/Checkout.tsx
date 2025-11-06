@@ -52,7 +52,6 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const premio = 2690;
-  const [step, setStep] = useState(1);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -163,25 +162,6 @@ const Checkout = () => {
     setCpfValidado(true); // Marca CPF como validado
   };
 
-  const handleStepOne = () => {
-    if (!nome.trim() || !email.trim()) {
-      toast({
-        title: "Campos obrigatórios",
-        description: "Por favor, preencha nome e e-mail.",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (!email.includes("@")) {
-      toast({
-        title: "E-mail inválido",
-        description: "Por favor, insira um e-mail válido.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setStep(2);
-  };
 
   const calcularTotal = () => {
     let total = freteData?.preco || 0;
@@ -221,89 +201,66 @@ const Checkout = () => {
         <span className="text-xs sm:text-sm font-bold">PAGAMENTO 100% SEGURO</span>
       </div>
 
-      {step === 1 && (
-        <>
-          {/* Banner Promo - Usando imagem */}
-          <div className="relative w-full">
-            <img 
-              src={bannerCheckout} 
-              alt="LOOKS PARA SEMPRE - Banner promocional" 
-              className="w-full h-auto object-cover max-h-[400px] sm:max-h-[600px]"
+      {/* Banner Promo - Usando imagem */}
+      <div className="relative w-full">
+        <img 
+          src={bannerCheckout} 
+          alt="LOOKS PARA SEMPRE - Banner promocional" 
+          className="w-full h-auto object-cover max-h-[400px] sm:max-h-[600px]"
+        />
+      </div>
+
+      {/* Formulário completo */}
+      <div className="p-3 sm:p-6 max-w-2xl mx-auto pb-20">
+        {/* Etapa 1 - Identificação */}
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg sm:text-2xl font-bold shrink-0">
+            1
+          </div>
+          <h2 className="text-xl sm:text-3xl font-bold">Identifique-se</h2>
+        </div>
+
+        <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+          <div>
+            <Label className="text-sm sm:text-base font-semibold mb-2 block">
+              Nome e sobrenome
+            </Label>
+            <Input
+              type="text"
+              placeholder="Nome e sobrenome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              className="h-12 sm:h-14 text-sm sm:text-base"
             />
           </div>
 
-          {/* Formulário Identificação */}
-          <div className="p-3 sm:p-6 max-w-2xl mx-auto">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg sm:text-2xl font-bold shrink-0">
-                1
-              </div>
-              <h2 className="text-xl sm:text-3xl font-bold">Identifique-se</h2>
-            </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              <div>
-                <Label className="text-sm sm:text-base font-semibold mb-2 block">
-                  Nome e sobrenome
-                </Label>
-                <Input
-                  type="text"
-                  placeholder="Nome e sobrenome"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                  className="h-12 sm:h-14 text-sm sm:text-base"
-                />
-              </div>
-
-              <div>
-                <Label className="text-sm sm:text-base font-semibold mb-2 block">E-mail</Label>
-                <Input
-                  type="email"
-                  placeholder="E-mail"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 sm:h-14 text-sm sm:text-base"
-                />
-              </div>
-
-              <Button
-                onClick={handleStepOne}
-                className="w-full h-12 sm:h-14 bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-lg font-bold rounded-lg"
-              >
-                CONTINUAR
-              </Button>
-            </div>
-
-            {/* Notificação flutuante */}
-            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
-              <p className="text-[10px] sm:text-sm">
-                <span className="font-bold">
-                  {notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}
-                </span>
-              </p>
-            </div>
+          <div>
+            <Label className="text-sm sm:text-base font-semibold mb-2 block">E-mail</Label>
+            <Input
+              type="email"
+              placeholder="E-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-12 sm:h-14 text-sm sm:text-base"
+            />
           </div>
-        </>
-      )}
+        </div>
 
-      {step === 2 && (
-        <div className="p-3 sm:p-6 max-w-2xl mx-auto pb-20">
-          {/* Step 2 - Finalizar Pagamento */}
-          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg sm:text-2xl font-bold shrink-0">
-              2
-            </div>
-            <h2 className="text-xl sm:text-3xl font-bold">Finalizar Pagamento</h2>
+        {/* Etapa 2 - Pagamento */}
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg sm:text-2xl font-bold shrink-0">
+            2
           </div>
+          <h2 className="text-xl sm:text-3xl font-bold">Finalizar Pagamento</h2>
+        </div>
 
-          <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
-            Escolha o seu método de pagamento preferido
-          </p>
+        <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
+          Escolha o seu método de pagamento preferido
+        </p>
 
-          {!cpfValidado && (
-            <>
-              {/* Card PIX - Apenas CPF */}
+        {!cpfValidado && (
+          <>
+            {/* Card PIX - Apenas CPF */}
               <div className="border-4 border-cyan-400 rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 bg-cyan-50">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-cyan-500 bg-white flex items-center justify-center">
@@ -364,11 +321,11 @@ const Checkout = () => {
                   <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
                 </p>
               </div>
-            </>
-          )}
+          </>
+        )}
 
-          {cpfValidado && (
-            <>
+        {cpfValidado && (
+          <>
 
           {/* Você está adquirindo */}
           <div className="mb-4 sm:mb-6">
@@ -592,10 +549,9 @@ const Checkout = () => {
               <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
             </p>
           </div>
-            </>
-          )}
-        </div>
+        </>
       )}
+      </div>
     </div>
   );
 };
