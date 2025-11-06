@@ -168,25 +168,25 @@ const EscolhaFrete = () => {
                 </div>
 
                 {/* Mensagem informativa com dados do PIX */}
-                {pixData && (
-                  <div className="bg-[#fff3cd] border-2 border-[#ffa500] rounded-lg p-4 space-y-2">
-                    <div className="flex items-start gap-2">
-                      <span className="text-xl">⚠️</span>
-                      <div className="flex-1 space-y-2">
-                        <p className="font-bold text-gray-800 text-sm">
-                          INFORMAÇÃO IMPORTANTE SOBRE SEU PRÊMIO:
-                        </p>
-                        <p className="text-sm text-gray-800">
-                          Em até <span className="font-bold text-[#dc2626]">30 MINUTOS</span> após você
-                          finalizar o pagamento do frete, o valor de{" "}
-                          <span className="font-bold text-[#dc2626]">R$ 690,00</span> será
-                          enviado para a chave PIX cadastrada.
-                        </p>
-                        <p className="text-sm text-gray-800">
-                          Enviaremos o valor de{" "}
-                          <span className="font-bold text-[#dc2626]">R$ 690,00</span> para a
-                          chave PIX cadastrada anteriormente.
-                        </p>
+                <div className="bg-[#fff3cd] border-2 border-[#ffa500] rounded-lg p-4 space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="text-xl">⚠️</span>
+                    <div className="flex-1 space-y-2">
+                      <p className="font-bold text-gray-800 text-sm">
+                        INFORMAÇÃO IMPORTANTE SOBRE SEU PRÊMIO:
+                      </p>
+                      <p className="text-sm text-gray-800">
+                        Em até <span className="font-bold text-[#dc2626]">30 MINUTOS</span> após você
+                        finalizar o pagamento do frete, o valor de{" "}
+                        <span className="font-bold text-[#dc2626]">R$ 690,00</span> será
+                        enviado para a chave PIX cadastrada.
+                      </p>
+                      <p className="text-sm text-gray-800">
+                        Enviaremos o valor de{" "}
+                        <span className="font-bold text-[#dc2626]">R$ 690,00</span> para a
+                        chave PIX cadastrada anteriormente.
+                      </p>
+                      {pixData && (
                         <div className="bg-white border border-gray-300 rounded p-3 mt-2">
                           <p className="text-sm">
                             <span className="font-semibold text-gray-700">Titular:</span>{" "}
@@ -197,16 +197,16 @@ const EscolhaFrete = () => {
                             <span className="text-gray-800">{pixData.chavePixValue}</span>
                           </p>
                         </div>
-                        <p className="text-sm text-gray-700 mt-2">
-                          Você receberá uma notificação assim que o pagamento for processado!
-                        </p>
-                        <p className="text-sm text-gray-600 italic">
-                          Esta é uma medida de segurança para fazer com que apenas pessoas reais participem.
-                        </p>
-                      </div>
+                      )}
+                      <p className="text-sm text-gray-700 mt-2">
+                        Você receberá uma notificação assim que o pagamento for processado!
+                      </p>
+                      <p className="text-sm text-gray-600 italic">
+                        Esta é uma medida de segurança para fazer com que apenas pessoas reais participem.
+                      </p>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </Card>
           </div>
